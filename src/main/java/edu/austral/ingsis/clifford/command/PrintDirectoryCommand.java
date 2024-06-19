@@ -1,31 +1,30 @@
 package edu.austral.ingsis.clifford.command;
 
+import edu.austral.ingsis.clifford.Cursor;
 import edu.austral.ingsis.clifford.file.Directory;
+import java.util.Objects;
 
-public class PrintDirectoryCommand implements ConsoleCommand{
+public class PrintDirectoryCommand implements ConsoleCommand {
 
-    private final String params;
+  private final Cursor directoryCursor;
 
-    private final Directory currentDir;
+  public PrintDirectoryCommand(Cursor directoryCursor) {
+    this.directoryCursor = directoryCursor;
+  }
 
-    public PrintDirectoryCommand(String params, Directory currentDir) {
-        this.params = params;
-        this.currentDir = currentDir;
+  @Override
+  public String execute() {
+    return printPath(directoryCursor.getDirectory());
+  }
+
+  private String printPath(Directory dir) {
+    if (dir.getParentDirectory() == null) {
+      return "/" + dir.getName();
+    } else {
+      if (!Objects.equals(dir.getParentDirectory().getName(), "/")) {
+        return printPath(dir.getParentDirectory()) + "/" + dir.getName();
+      }
+      return ("/" + dir.getName());
     }
-
-
-    @Override
-    public String execute() {
-        return printPath(currentDir);
-    }
-
-    private String printPath(Directory dir) {
-        if (dir.getParentDirectory() == null) {
-            // Base case: the current directory has no parent, return its name
-            return "/" + dir.getName();
-        } else {
-            // Recursive case: append the parent directory's path recursively
-            return printPath(dir.getParentDirectory()) + "/" + dir.getName();
-        }
-    }
+  }
 }

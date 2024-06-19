@@ -1,12 +1,9 @@
 package edu.austral.ingsis.clifford.file;
 
-import java.util.Date;
-
 public interface FileSystemObject {
-    String getName();
+  String getName();
 
-    FileSystemObject setParentDirectory(Directory parentDirectory);
+  FileSystemObject setParentDirectory(Directory parentDirectory);
 
-    Directory getParentDirectory();
-
+  Directory getParentDirectory();
 }
